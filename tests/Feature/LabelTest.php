@@ -36,3 +36,24 @@ it('gets labels by visibility status', function () {
     $this->assertEquals(Label::visible()->count(), 7);
     $this->assertEquals(Label::hidden()->count(), 6);
 });
+
+
+it('can use custom model for label', function () {
+    app()['config']->set('laravel_ticket.models.label', \Coderflex\LaravelTicket\Tests\Models\Label::class);
+    $ticket = Ticket::factory()->create([
+        'title' => 'Can you create a message?',
+    ]);
+
+    expect($ticket->labels()->make())->toBeInstanceOf(\Coderflex\LaravelTicket\Tests\Models\Label::class);
+
+});
+
+it('null custom model for label uses default model', function () {
+    app()['config']->set('laravel_ticket.models.label', null);
+    $ticket = Ticket::factory()->create([
+        'title' => 'Can you create a message?',
+    ]);
+
+    expect($ticket->labels()->make())->toBeInstanceOf(\Coderflex\LaravelTicket\Models\Label::class);
+
+});

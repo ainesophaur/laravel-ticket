@@ -271,3 +271,21 @@ it('can assign ticket to a user using user id', function () {
     expect($ticket->assigned_to)
         ->toBe($agentUser->id);
 });
+
+
+
+it('can use custom model for ticket', function () {
+    app()['config']->set('laravel_ticket.models.ticket', \Coderflex\LaravelTicket\Tests\Models\Ticket::class);
+    $agentUser = User::factory()->create();
+
+    expect($agentUser->tickets()->make())->toBeInstanceOf(\Coderflex\LaravelTicket\Tests\Models\Ticket::class);
+
+});
+
+it('null custom model for ticket uses default model', function () {
+    app()['config']->set('laravel_ticket.models.ticket', null);
+    $agentUser = User::factory()->create();
+
+    expect($agentUser->tickets()->make())->toBeInstanceOf(\Coderflex\LaravelTicket\Models\Ticket::class);
+
+});

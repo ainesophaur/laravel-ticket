@@ -3,6 +3,7 @@
 namespace Coderflex\LaravelTicket\Models;
 
 use Coderflex\LaravelTicket\Concerns;
+use Coderflex\LaravelTicket\LaravelTicketServiceProvider;
 use Coderflex\LaravelTicket\Scopes\TicketScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -68,7 +69,7 @@ class Ticket extends Model
         $tableName = config('laravel_ticket.table_names.messages', 'messages');
 
         return $this->hasMany(
-            Message::class,
+            LaravelTicketServiceProvider::determineMessageModel(),
             (string) $tableName['columns']['ticket_foreing_id'],
         );
     }
@@ -83,7 +84,7 @@ class Ticket extends Model
         $table = config('laravel_ticket.table_names.category_ticket', 'category_ticket');
 
         return $this->belongsToMany(
-            Category::class,
+            LaravelTicketServiceProvider::determineCategoryModel(),
             $table['table'],
             $table['columns']['ticket_foreign_id'],
             $table['columns']['category_foreign_id'],
@@ -100,7 +101,7 @@ class Ticket extends Model
         $table = config('laravel_ticket.table_names.label_ticket', 'label_ticket');
 
         return $this->belongsToMany(
-            Label::class,
+            LaravelTicketServiceProvider::determineLabelModel(),
             $table['table'],
             $table['columns']['ticket_foreign_id'],
             $table['columns']['label_foreign_id'],

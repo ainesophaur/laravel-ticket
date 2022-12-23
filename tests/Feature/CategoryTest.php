@@ -36,3 +36,23 @@ it('gets categories by visibility status', function () {
     $this->assertEquals(Category::visible()->count(), 10);
     $this->assertEquals(Category::hidden()->count(), 9);
 });
+
+it('can use custom model for category', function () {
+    app()['config']->set('laravel_ticket.models.category', \Coderflex\LaravelTicket\Tests\Models\Category::class);
+    $ticket = Ticket::factory()->create([
+        'title' => 'Can you create a message?',
+    ]);
+
+    expect($ticket->categories()->make())->toBeInstanceOf(\Coderflex\LaravelTicket\Tests\Models\Category::class);
+
+});
+
+it('null custom model for category uses default model', function () {
+    app()['config']->set('laravel_ticket.models.category', null);
+    $ticket = Ticket::factory()->create([
+        'title' => 'Can you create a message?',
+    ]);
+
+    expect($ticket->categories()->make())->toBeInstanceOf(\Coderflex\LaravelTicket\Models\Category::class);
+
+});
