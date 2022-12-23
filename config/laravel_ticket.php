@@ -72,5 +72,10 @@ return [
             ],
         ],
     ],
-
+    'models' => [
+        'category' => '\Coderflex\LaravelTicket\Models\Category',
+        'label' => '\Coderflex\LaravelTicket\Models\Label',
+        'message' => '\Coderflex\LaravelTicket\Models\Message',
+        'ticket' => '\Coderflex\LaravelTicket\Models\Ticket',
+    ]
 ];

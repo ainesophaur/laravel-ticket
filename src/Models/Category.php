@@ -3,6 +3,7 @@
 namespace Coderflex\LaravelTicket\Models;
 
 use Coderflex\LaravelTicket\Concerns\HasVisibility;
+use Coderflex\LaravelTicket\LaravelTicketServiceProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -26,7 +27,7 @@ class Category extends Model
      */
     public function tickets(): BelongsToMany
     {
-        return $this->belongsToMany(Ticket::class);
+        return $this->belongsToMany(LaravelTicketServiceProvider::determineTicketModel());
     }
 
     /**
